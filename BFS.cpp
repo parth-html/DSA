@@ -5,6 +5,9 @@ class BFS
 {
 public:
     unordered_map<int, vector<int>> adj;
+    vector<int> ans;
+    unordered_map<int, bool> visited;
+    queue<int> q;
 
     void createGraph(int u, int v, bool direction)
     {
@@ -15,12 +18,9 @@ public:
         }
     }
 
-    void printBFS(int start)
+    void TraverseBFS(int start)
     {
-        vector<int> ans;
-        unordered_map<int, bool> visited;
 
-        queue<int> q;
         q.push(start);
         visited[start] = true;
 
@@ -38,23 +38,13 @@ public:
                 }
             }
         }
-
-        for (auto i : ans)
-        {
-            cout << i << ", ";
-        }
     }
 
-    void printGraph()
+    void printBFS()
     {
-        for (auto i : adj)
+        for (auto i : ans)
         {
-            cout << i.first << "-->";
-            for (auto j : i.second)
-            {
-                cout << j << ", ";
-            }
-            cout << endl;
+            cout << i << " ";
         }
     }
 };
@@ -78,8 +68,17 @@ int main()
     graph.createGraph(4, 5, 1);
     graph.createGraph(5, 4, 1);
 
-    // graph.printGraph();
-    graph.printBFS(0);
+    for (auto i : graph.adj)
+    {
+        if (!graph.visited[i.first])
+        {
+            graph.TraverseBFS(i.first);
+        }
+        // cout<<i.first<<endl;
+    }
+
+    graph.printBFS();
+
     /*
         0----------------1
         |                | \
