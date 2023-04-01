@@ -7,7 +7,7 @@ public:
     unordered_map<int, vector<int>> adj;
     unordered_map<int, bool> isVisited;
     vector<int> ans;
-    int lastVisited;
+    vector<int> path;
 
     void createGraph(int u, int v, bool direction)
     {
@@ -18,17 +18,27 @@ public:
         }
     }
 
-    void TraverseDFS(int start)
+    void TraverseDFS(int start, int target)
     {
         isVisited[start] = true;
         ans.push_back(start);
-        for (auto i : adj[start])
+
+        if (start == target)
         {
-            if (!isVisited[i])
+            printDFS();
+        }
+        else
+        {
+            for (auto i : adj[start])
             {
-                TraverseDFS(i);
+                if (!isVisited[i])
+                {
+                    TraverseDFS(i, target);
+                }
             }
         }
+        ans.pop_back();
+        isVisited[start] = false;
     }
 
     void printDFS()
@@ -37,6 +47,7 @@ public:
         {
             cout << i << " ";
         }
+        cout << endl;
     }
 };
 
@@ -52,14 +63,8 @@ int main()
     graph.createGraph(3, 4, 0);
     graph.createGraph(4, 5, 0);
 
-    for (auto i : graph.adj)
-    {
-        if (!graph.isVisited[i.first])
-        {
-            graph.TraverseDFS(i.first);
-        }
-    }
-    graph.printDFS();
+    graph.TraverseDFS(0, 5);
+    // graph.printDFS();
     /*
         0----------------1
         |                | \
